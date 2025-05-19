@@ -1,4 +1,4 @@
-"""texto_escrito="este livro é legal!"
+texto_escrito="este livro é legal!"
 outro_texto="vou aprender a programar"
 outro_texto=texto_escrito
 print(outro_texto)
@@ -15,7 +15,7 @@ resultado_soma=float(numero_um)+float(numero_dois)
 resultado_soma_texto=str(resultado_soma)
 mensagem="O resultado da soma é:"+resultado_soma_texto
 print(mensagem)
-"""
+
 def quadrado(lado):
     area=lado*lado
     return area
