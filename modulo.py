@@ -62,6 +62,42 @@ def mini_equaçao():
 mini_equaçao()
 
 
+def dieta():
+    alimentos = int(input("Digite Kg: "))
+    gramas = 1000*alimentos
+    print(gramas, "g")
+    consumo = 50 
+    pessoa = gramas/consumo
+    print(pessoa, "dias")
+dieta()
+
+
+def função():
+    angulo1 = float(input("Digite o primeiro angulo: "))
+    angulo2 = float(input("Digite o segundo angulo: "))
+    angulo3 = (angulo1**2)+(angulo2**2)  
+    resultado = math.sqrt(angulo3)
+    print(resultado)
+função()
+
+
+def salario_a_receber():
+    horas_trabalhadas = int(input("Horas trabalhadas: "))
+    valor_por_hora = int(input("Valor por hora: "))
+    desconto = int(input("Desconto: "))
+    descendentes = int(input("Numero de descedentes: "))
+    salario = horas_trabalhadas*valor_por_hora
+    salario_liquido = salario-desconto
+    salario_liquido = salario_liquido+(descendentes*100)
+    print(salario_liquido)
+salario_a_receber()
+
+
+
+
+
+    
+
 
 
 
