@@ -1,3 +1,5 @@
+import statistics
+
 """x = 1
 while x<=100:
     print(x)
@@ -55,17 +57,20 @@ while True:
     if v==0:
         break
     s = s+v
-print(s)
+print(s)"""
 
 lista = []
 while True:
-    n = (input("Digite um carro: "))
-    if n=="bmw":
+    n = int(input("Digite um numero: "))
+    if n==0:
         break
     lista.append(n)
-print(lista)"""
 
 x = 0
 while x < len(lista):
     print(lista[x])
     x=x+1
+media = statistics.mean(lista)
+print("media:", media)
+
+
