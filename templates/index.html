@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PetVida - Clínica Veterinária</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      color: #333;
+      background-color: #fefefe;
+    }
+
+    header {
+      background-color: #ffffff;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    header h1 {
+      color: #4CAF50;
+      margin: 0;
+    }
+
+    nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #4CAF50;
+      font-weight: 600;
+    }
+
+    .hero {
+      background: linear-gradient(to right, #4CAF50, #81C784);
+      color: white;
+      padding: 100px 40px;
+      text-align: center;
+    }
+
+    .hero h2 {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .form-section {
+      max-width: 600px;
+      margin: 60px auto;
+      padding: 40px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-section h3 {
+      color: #4CAF50;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    input, select {
+      margin-bottom: 15px;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 12px;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #43A047;
+    }
+
+    footer {
+      background-color: #f5f5f5;
+      text-align: center;
+      padding: 20px;
+      margin-top: 60px;
+      color: #666;
+    }
+
+    .success, .error {
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .success {
+      color: #2e7d32;
+    }
+
+    .error {
+      color: #c62828;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>PetVida</h1>
+    <nav>
+      <a href="#form">Cadastro</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>Bem-vindo à Clínica Veterinária PetVida</h2>
+    <p>Cuidado, carinho e saúde para seu melhor amigo. Agende uma consulta ou cadastre seu pet agora mesmo.</p>
+  </section>
+
+  <section class="form-section" id="form">
+    <h3>Cadastro de Usuário e Pet</h3>
+
+    <div id="mensagem"></div>
+
+    <form id="cadastro-form">
+      <input type="text" name="usuario" placeholder="Seu nome" required />
+      <input type="text" name="pet" placeholder="Nome do pet" required />
+      <select name="porte" required>
+        <option value="">Porte do pet</option>
+        <option value="pequeno">Pequeno</option>
+        <option value="médio">Médio</option>
+        <option value="grande">Grande</option>
+      </select>
+      <input type="email" name="email" placeholder="Seu e-mail" required />
+      <input type="password" name="senha" placeholder="Senha" required />
+      <button type="submit">Cadastrar</button>
+    </form>
+  </section>
+
+  <footer id="contato">
+    <p>&copy; 2025 Clínica Veterinária PetVida - Todos os direitos reservados</p>
+  </footer>
+
+  <script>
+    const form = document.getElementById('cadastro-form');
+    const mensagemDiv = document.getElementById('mensagem');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+
+      const response = await fetch("/api/create", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        mensagemDiv.innerHTML = `<p class="success">Cadastro realizado com sucesso!</p>`;
+        form.reset();
+      } else {
+        mensagemDiv.innerHTML = `<p class="error">Erro: ${data.error || data.result}</p>`;
+      }
+    });
+  </script>
+
+</body>
+</html>
