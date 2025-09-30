@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>PetVida - Clínica Veterinária</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f9f9f9;
+        }
+        header {
+            background: linear-gradient(to right, #4CAF50, #66BB6A);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        .form-box {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        .form-box h2 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        .form-box input,
+        .form-box select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-box button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-box button:hover {
+            background: #45a049;
+        }
+        .users-list {
+            margin: 40px auto;
+            width: 90%;
+            max-width: 800px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f1f1f1;
+        }
+        .pet-info {
+            font-size: 0.9em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Bem-vindo à Clínica Veterinária PetVida</h1>
+    <p>Cuidado, carinho e saúde para seu melhor amigo. Agende uma consulta ou cadastre seu pet agora mesmo.</p>
+</header>
+
+<div class="container">
+    <div class="form-box">
+        <h2>Cadastro de Usuário e Pet</h2>
+        <input type="text" placeholder="Seu nome">
+        <input type="text" placeholder="Nome do pet">
+        <select>
+            <option value="">Porte do pet</option>
+            <option value="pequeno">Pequeno</option>
+            <option value="médio">Médio</option>
+            <option value="grande">Grande</option>
+        </select>
+        <input type="email" placeholder="Seu e-mail">
+        <input type="password" placeholder="Senha">
+        <button>Cadastrar</button>
+    </div>
+</div>
+
+<div class="users-list">
+    <h2>Usuários e Pets Cadastrados</h2>
+    <table id="usersTable">
+        <thead>
+            <tr>
+                <th>Nome do Usuário</th>
+                <th>E-mail</th>
+                <th>Pets</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Dados carregados via JS -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    async function carregarUsuarios() {
+        try {
+            const response = await fetch("/api/users");
+            const data = await response.json();
+
+            if (data.success) {
+                const tabela = document.getElementById("usersTable").querySelector("tbody");
+                tabela.innerHTML = ""; // Limpa a tabela
+
+                data.result.forEach(usuario => {
+                    const linha = document.createElement("tr");
+
+                    const nomeTd = document.createElement("td");
+                    nomeTd.textContent = usuario.nome;
+
+                    const emailTd = document.createElement("td");
+                    emailTd.textContent = usuario.email;
+
+                    const petsTd = document.createElement("td");
+                    if (usuario.pets.length === 0) {
+                        petsTd.innerHTML = "<i>Sem pets cadastrados</i>";
+                    } else {
+                        petsTd.innerHTML = usuario.pets.map(pet => `
+                            <div class="pet-info">
+                                <strong>${pet.nome}</strong> (${pet.porte})
+                            </div>
+                        `).join("");
+                    }
+
+                    linha.appendChild(nomeTd);
+                    linha.appendChild(emailTd);
+                    linha.appendChild(petsTd);
+
+                    tabela.appendChild(linha);
+                });
+            } else {
+                alert("Erro ao carregar dados: " + data.result);
+            }
+        } catch (erro) {
+            console.error("Erro na requisição:", erro);
+        }
+    }
+
+    // Carrega dados ao abrir a página
+    window.onload = carregarUsuarios;
+</script>
+
+</body>
+</html>

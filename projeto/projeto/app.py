@@ -7,6 +7,10 @@ app = Flask(__name__)
 def index():
     return render_template("index.html")
 
+@app.route("/usuarios", methods=["GET"])
+def usuarios():
+    return render_template("usuarios.html")
+
 @app.route("/api/create", methods=["POST"])
 def api_create():
     try:
