@@ -2,7 +2,8 @@ import datetime
 from sqlalchemy import *
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker, joinedload
 
-DATABASE_URL = "postgresql://postgres:1234@localhost:5432/postgres"
+#DATABASE_URL     = "postgresql://postgres:1234@localhost:5432/postgres"
+DATABASE_URL = 'postgresql://neondb_owner:npg_d3gRUwA9fBsQ@ep-old-wave-ac2r0tux-pooler.sa-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require'
 
 engine = create_engine(DATABASE_URL)
 

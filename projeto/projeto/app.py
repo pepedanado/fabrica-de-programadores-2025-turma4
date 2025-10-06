@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, render_template
 from main import criar_novo_usuario_e_pet, ler_dados
-
+import json
 app = Flask(__name__)
 
 @app.route("/", methods=["GET"])
@@ -41,6 +41,19 @@ def api_users():
         return jsonify({'success': True, 'result': data}), 200
     except Exception as e:
         return jsonify({'success': False, 'result': str(e)}), 500
+    
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        try:
+            data = request.get_data()
+            usuario = json.loads(data)
+            print(usuario)
+            return jsonify({"sucess": True, "data": data}), 200
+        except Exception as e:
+            return jsonify({"sucess": False, "error": "Erro de servidor: " + str(e)})
+    else:
+        return render_template('login.html')
     
 if __name__ == "__main__":
     app.run()
