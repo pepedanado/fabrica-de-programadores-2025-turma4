@@ -1,5 +1,5 @@
-from flask import Flask, request, jsonify, render_template
-from main import criar_novo_usuario_e_pet, ler_dados
+from flask import Flask, request, jsonify, render_template, redirect, url_for
+from main import criar_novo_usuario_e_pet, ler_dados, remover_usuario
 import json
 app = Flask(__name__)
 
@@ -54,6 +54,20 @@ def login():
             return jsonify({"sucess": False, "error": "Erro de servidor: " + str(e)})
     else:
         return render_template('login.html')
+    
+@app.route("/remover/usuarios/<id_usuario>", methods=['GET', 'DELETE'])
+def remover_usuarios(id_usuario):
+    if request.method == "DELETE":
+        try:
+            data = request.get_data()
+            usuario_removido = json.loads(data)
+            remover_usuario(id_usuario=usuario_removido['id_usuario'])
+            print("Usuário : %s foi removido com sucesso!" % usuario_removido)
+            return redirect(url_for('index'))
+        except Exception as e:
+            return jsonify({"sucess": False, "error": "Erro ao remover usuário "+ str(e)}), 500
+    else:
+        return render_template('remover_usuario.html')
     
 if __name__ == "__main__":
     app.run()

@@ -30,8 +30,27 @@ def ler_dados():
         pets = []
         for p in u.pets:
             pets.append({"id": p.id, "nome": p.nome, "porte": p.porte, "criado_em": p.criado_em})
-        
         result.append({"id": u.id, "nome": u.nome, "email": u.email, "criado_em": u.criado_em, "pets": pets})
     return result
+
+
+def remover_usuario(id_usuario):
+    session = SessionLocal()
+    usuario_removido = session.query(Usuario).filter(Usuario.id == id_usuario).first()
+
+    if usuario_removido:
+        users = session.query(Usuario).options(joinedload(Usuario.pets)).all()
+
+        for u in users:
+            for p in u.pets:
+                session.delete(p)
+                session.commit()
+                session.flush()
+            session.delete(usuario_removido)
+            session.commit()
+    
+    return print('Usuário de id %s removido com sucessso!' % id_usuario)
+
+
 
 
